@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import com.galvez.projecto.model.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -30,6 +31,9 @@ public interface CompanyRepository extends JpaRepository<Company, Long>{
     @Query("SELECT m FROM Manager m WHERE m.id = :companyId")
     List<Manager> findManagersByCompany(Long companyId);
 
+    @Query("SELECT p FROM Project p WHERE p.company.id = :companyId")
+    List<Project> findProjectsByCompany(Long companyId);
+
 
     // private String totalRevenue;
     // private String totalProjectCosts;
@@ -37,7 +41,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long>{
     // private String totalProfitAfterTax;
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO companies (email, name, password, phone_number, date_started, total_revenue, total_project_costs, total_profit, total_profit_after_tax) VALUES (:email, :name, :password, :phoneNumber, :dateStarted, :totalRevenue, :totalProjectCosts, :totalProfit, :totalProfitAfterTax)", nativeQuery = true)
+    @Query(value = "INSERT INTO companys (email, name, password, phone_number, date_started, total_revenue, total_project_costs, total_profit, total_profit_after_tax) VALUES (:email, :name, :password, :phoneNumber, :dateStarted, :totalRevenue, :totalProjectCosts, :totalProfit, :totalProfitAfterTax)", nativeQuery = true)
     void saveCompanyToDatabase(String email, String name, String password, String phoneNumber, LocalDate dateStarted, String totalRevenue, String totalProjectCosts, String totalProfit, String totalProfitAfterTax);
     
 }

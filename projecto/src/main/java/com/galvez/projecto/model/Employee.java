@@ -51,7 +51,7 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "companys_id")
-   @JsonBackReference
+    @JsonBackReference
     private Company company;
     
     private LocalDate employeeDateStarted;

@@ -26,4 +26,6 @@ public interface ProjectServInterface {
     Response getAllProjects();
     List<Project> getProjectsByDateAndType(LocalDate projectDateStarted, LocalDate projectDateFinished, String projectType);
     List<Project> getProjectsByDateAndTypeAndAddress(LocalDate projectDateStarted, LocalDate projectDateFinished, String projectType, String projectAddress);
+
+    Response getProjectsByEmployee(Long employeeId);
 }

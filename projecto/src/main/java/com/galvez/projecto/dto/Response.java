@@ -14,7 +14,6 @@ public class Response {
     private String message;
     private String token;
 
-    // private String role;
 
     private String expirationTime;
     // private String bookingConfirmationCode;

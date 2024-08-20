@@ -4,7 +4,8 @@ spring:
   application:
     name: projecto
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/projecto
+#    url: jdbc:mysql://127.0.0.1:3306/projecto
+    url: jdbc:mysql://projectodb.cdewg46msbic.us-east-1.rds.amazonaws.com:3306/projectodb
     username: root
     password: Matt0038!
     driver-class-name: com.mysql.cj.jdbc.Driver

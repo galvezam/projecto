@@ -19,12 +19,12 @@ public interface EmployeeServInterface {
 
     Response getManagerByEmployee(String employeeId);
 
-    Response getCompanyByEmployee(String employeeId);
+    Response getCompanyByEmployee(Long employeeId);
     // Response getUserBookingHistory(String userId);
 
     Response deleteEmployee(String employeeId);
 
-    Response getEmployeeById(String employeeId);
+    Response getEmployeeById(Long employeeId);
 
     Response getMyInfo(String email);
 

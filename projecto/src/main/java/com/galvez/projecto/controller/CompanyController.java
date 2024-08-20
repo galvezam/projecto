@@ -75,9 +75,14 @@ public class CompanyController {
 
     // MAYBE CONVERT TO LIST<EMPLOYEE>
     @GetMapping("/employees")
-    // @PreAuthorize("hasAuthority('MANAGER')")
     public ResponseEntity<Response> getEmployeesByCompany(@RequestParam String companyId) {
         Response response = companyService.getEmployeesByCompany(companyId);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @GetMapping("/projects")
+    public ResponseEntity<Response> getProjectsByCompany(@RequestParam String companyId) {
+        Response response = companyService.getProjectsByCompany(companyId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 

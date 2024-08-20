@@ -34,4 +34,6 @@ public interface CompanyServInterface {
 
     Response getCompanyByName(String name);
 
+    Response getProjectsByCompany(String companyId);
+
 }

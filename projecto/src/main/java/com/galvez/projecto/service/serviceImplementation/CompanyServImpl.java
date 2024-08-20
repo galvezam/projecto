@@ -68,16 +68,18 @@ public class CompanyServImpl implements CompanyServInterface{
             System.out.println(loginRequest.getEmail());
             System.out.println(loginRequest.getPassword());
             System.out.println(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             System.out.println("loginRequest " + loginRequest);
             Company company = companyRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new OurException("User Not Found"));
             UserDetails userDetails = jwtUtils.createCompanyUserDetails(company.getEmail());
             System.out.println(userDetails);
             var token = jwtUtils.generateToken(userDetails);
             System.out.println(token);
+            CompanyDto companyDto = Utils.mapCompanyEntityToCompanyDto(company);
             response.setStatusCode(200);
             response.setToken(token);
-            response.setRole(company.getRole());
+            response.setCompany(companyDto);
+            response.setRole(new Company().getRole());
             response.setExpirationTime("7 days");
             response.setMessage("Successful");
         }
@@ -209,6 +211,28 @@ public class CompanyServImpl implements CompanyServInterface{
         }
 
         return response;   
+    }
+
+
+    @Override
+    public Response getProjectsByCompany(String companyId) {
+        Response response = new Response();
+
+        try {
+            Long id = Long.valueOf(companyId);
+            // String companyName;
+            List<Project> projectList = companyRepository.findProjectsByCompany(id);
+            List<ProjectDto> projectDtoList = Utils.mapProjectListEntityToProjectDtoList(projectList);
+            response.setStatusCode(200);
+            response.setMessage("Successful");
+            response.setProjectList(projectDtoList);
+        }
+        catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error getting all employees from company " + e.getMessage());
+        }
+
+        return response;
     }
 
     @Override

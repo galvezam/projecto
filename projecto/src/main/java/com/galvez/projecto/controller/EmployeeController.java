@@ -67,7 +67,8 @@ public class EmployeeController {
     @GetMapping("/company")
     public ResponseEntity<Response> getCompanyByEmployee(@RequestParam String employeeId) {
         System.out.println("emp id " + employeeId);
-        Response response = employeeService.getCompanyByEmployee(employeeId);
+        Long id = Long.parseLong(employeeId);
+        Response response = employeeService.getCompanyByEmployee(id);
         System.out.println(response);
         System.out.println(response.getCompany());
         return ResponseEntity.status(response.getStatusCode()).body(response);
@@ -81,7 +82,8 @@ public class EmployeeController {
 
     @GetMapping("/id")
     public ResponseEntity<Response> getEmployeeById(@RequestParam String employeeId) {
-        Response response = employeeService.getEmployeeById(employeeId);
+        Long id = Long.parseLong(employeeId);
+        Response response = employeeService.getEmployeeById(id);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 

@@ -56,33 +56,33 @@ public class JWTUtils {
 
     @Autowired
     private EmployeeRepository employeeRepository;
-    
-    // public String generateToken(UserDetails userDetails) {
-    //     return Jwts.builder()
-    //             .setSubject(userDetails.getUsername())
-    //             .setIssuedAt(new Date(System.currentTimeMillis()))
-    //             .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-    //             .signWith(key)
-    //             .compact();
-    // }
-
-    // public String generateToken(UserDetails userDetails) {
-    //     Date now = new Date();
-    //     Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
-        
-    //     return Jwts.builder()
-    //             .setSubject(userDetails.getUsername())
-    //             .claim("authorities", userDetails.getAuthorities())
-    //             .setIssuedAt(now)
-    //             .setExpiration(expiryDate)
-    //             .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()), SignatureAlgorithm.HS512)
-    //             .compact();
-    // }
 
     public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(key)
+                .compact();
     }
+
+//     public String generateToken(UserDetails userDetails) {
+//         Date now = new Date();
+//         Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
+//
+//         return Jwts.builder()
+//                 .setSubject(userDetails.getUsername())
+//                 .claim("authorities", userDetails.getAuthorities())
+//                 .setIssuedAt(now)
+//                 .setExpiration(expiryDate)
+//                 .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()), SignatureAlgorithm.HS512)
+//                 .compact();
+//     }
+
+//    public String generateToken(UserDetails userDetails) {
+//        Map<String, Object> claims = new HashMap<>();
+//        return createToken(claims, userDetails.getUsername());
+//    }
 
     private String createToken(Map<String, Object> claims, String subject) {
         Date now = new Date();

@@ -49,12 +49,14 @@ public class AuthController {
 
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
+        System.out.println("login request: " + loginRequest);
 
         if (employeeService.isValidEmployee(email, password)) {
             // Employee login successful
             // Generate and return JWT token for employee
             // String jwtToken = employeeService.generateEmployeeToken(email);
             Response employeeResponse = employeeService.login(loginRequest);
+            System.out.println("login response: " + employeeResponse);
             return ResponseEntity.status(employeeResponse.getStatusCode()).body(employeeResponse);
         } 
         // Check if the user is a company admin
@@ -62,6 +64,7 @@ public class AuthController {
             // Company admin login successful
             // Generate and return JWT token for company admin
             Response companyResponse = companyService.login(loginRequest);
+            System.out.println("login response: " + companyResponse);
             return ResponseEntity.status(companyResponse.getStatusCode()).body(companyResponse);
         } 
         // Check if the user is a manager
@@ -97,15 +100,16 @@ public class AuthController {
 
         LocalDate dateStarted = LocalDate.now();
         Response response = new Response();
-        Long companyId = (long) -1;
-        Long managerId = (long) -1;
+        Long companyId = (long) 2;
+        Long managerId = (long) 1;
         if (signupRequest.getRole().equals("Employee")) {
             response = employeeService.addEmployeeToDatabase(email, name, password, phoneNumber, dateStarted, "0", "0", companyId, managerId);
 
         }
         else if (signupRequest.getRole().equals("Company")) {
             response = companyService.addCompanyToDatabase(email, name, password, phoneNumber, dateStarted, "0", "0", "0", "0");
-        } 
+        }
+
 
         // Perform registration logic here
         

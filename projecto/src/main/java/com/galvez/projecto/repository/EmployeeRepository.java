@@ -35,4 +35,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
     // @Transactional
     // @Query(value = "INSERT INTO employees (email, name, password, phone_number, manager_id, company_id, date_started, total_revenue, total_revenue_after_tax) VALUES (:email, :name, :password, :phoneNumber, :manager, :company, :dateStarted, :totalRevenue, :totalRevenueAfterTax)", nativeQuery = true)
     // void saveEmployeeToDatabase(String email, String name, String password, String phoneNumber, Long managerId, Long companyId, LocalDate dateStarted, String totalRevenue, String totalRevenueAfterTax);
+
 }

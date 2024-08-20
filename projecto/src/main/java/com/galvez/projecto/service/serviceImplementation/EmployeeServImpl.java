@@ -65,16 +65,32 @@ public class EmployeeServImpl implements EmployeeServInterface {
             System.out.println(loginRequest.getEmail());
             System.out.println(loginRequest.getPassword());
             System.out.println(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+
+            System.out.println("before authenticationManager ");
+//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+            System.out.println("after authenticationManager ");
+            
             System.out.println("loginRequest " + loginRequest);
+
             Employee employee = employeeRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new OurException("User Not Found"));
             UserDetails userDetails = jwtUtils.createEmployeeUserDetails(employee.getEmail());
-            System.out.println(userDetails);
+            System.out.println("user details: "+userDetails.getAuthorities());
             var token = jwtUtils.generateToken(userDetails);
-            System.out.println(token);
+            System.out.println("token: "+token);
+            EmployeeDto employeeDto = Utils.mapEmployeeEntityToEmployeeDto(employee);
+            System.out.println(employeeDto);
+            Company company = employeeRepository.findCompanyByEmployee(employee.getId());
+
+            CompanyDto companyDto = null;
+            if (company != null) {
+                companyDto = Utils.mapCompanyEntityToCompanyDto(company);
+            }
+
+            response.setEmployee(employeeDto);
+            response.setCompany(companyDto);
             response.setStatusCode(200);
             response.setToken(token);
-            response.setRole(employee.getRole());
+            response.setRole(new Employee().getRole());
             response.setExpirationTime("7 days");
             response.setMessage("Successful");
         }
@@ -84,8 +100,8 @@ public class EmployeeServImpl implements EmployeeServInterface {
         }
         catch (Exception e) {
             response.setStatusCode(500);
-            response.setMessage("Invalid Username/Password");
-            // response.setMessage("Error occurred during user login " + e.getMessage());
+//            response.setMessage("Invalid Username/Password");
+             response.setMessage("Error occurred during user login " + e.getMessage());
         }
         return response;
     }
@@ -178,13 +194,13 @@ public class EmployeeServImpl implements EmployeeServInterface {
     }
 
     @Override
-    public Response getCompanyByEmployee(String employeeId) {
+    public Response getCompanyByEmployee(Long employeeId) {
         Response response = new Response();
 
         try {
-            Long id = Long.valueOf(employeeId);
+//            Long id = Long.valueOf(employeeId);
 
-            Company company = employeeRepository.findCompanyByEmployee(id);
+            Company company = employeeRepository.findCompanyByEmployee(employeeId);
 
             CompanyDto companyDto = null;
             if (company != null) {
@@ -229,12 +245,12 @@ public class EmployeeServImpl implements EmployeeServInterface {
     }
 
     @Override
-    public Response getEmployeeById(String employeeId) {
+    public Response getEmployeeById(Long employeeId) {
         Response response = new Response();
 
         try {
-            Long id = Long.valueOf(employeeId);
-            Employee employee = employeeRepository.findById(id).orElseThrow(() -> new OurException("Employee Not Found"));
+//            Long id = Long.valueOf(employeeId);
+            Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new OurException("Employee Not Found"));
             EmployeeDto employeeDto = Utils.mapEmployeeEntityToEmployeeDto(employee);
             response.setStatusCode(200);
             response.setMessage("Successful");

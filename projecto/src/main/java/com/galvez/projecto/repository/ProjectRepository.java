@@ -65,4 +65,10 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
 
     @Query("SELECT p FROM Project p WHERE p.projectType = :projectType AND  p.projectAddress = :projectAddress")
     List<Project> findProjectsByTypeAndAddress(String projectType, String projectAddress);
+
+    @Query("SELECT p FROM Project p WHERE p.employee.id = :employeeId")
+    List<Project> findProjectsByEmployee(Long employeeId);
+
+    @Query("SELECT p FROM Project p WHERE p.id = (SELECT e.currentProject.id FROM Employee e WHERE e.id = :employeeId)")
+    Project findCurrentProjectByEmployee(Long employeeId);
 }

@@ -308,4 +308,20 @@ public class ProjectServImpl implements ProjectServInterface{
         }
         projectDto.setManagerDto(managerDto);
     }
+
+    @Override
+    public Response getProjectsByEmployee(Long employeeId) {
+//        Long id = Long.parseLong(employeeId);
+//        return projectRepository.findProjectsByEmployee(id);
+        List<Project> projectList = projectRepository.findProjectsByEmployee(employeeId);
+        Response response = new Response();
+        if (!projectList.isEmpty()) {
+            List<ProjectDto> projectDtoList = Utils.mapProjectListEntityToProjectDtoList(projectList);
+            response.setProjectList(projectDtoList);
+        }
+
+        response.setStatusCode(200);
+        response.setMessage("Successful");
+        return response;
+    }
 }

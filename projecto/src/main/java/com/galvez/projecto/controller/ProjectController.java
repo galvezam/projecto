@@ -95,6 +95,7 @@ public class ProjectController {
     @GetMapping("/all-projects")
     public ResponseEntity<Response> getAllProjects() {
         Response response = projectService.getAllProjects();
+        System.out.println(response);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
@@ -134,8 +135,9 @@ public class ProjectController {
     }
 
     @GetMapping("/project-id/{projectId}")
-    public ResponseEntity<Response> getProjectById(@PathVariable Long projectId) {
-        Response response = projectService.getProjectById(projectId);
+    public ResponseEntity<Response> getProjectById(@PathVariable String projectId) {
+        Long id = Long.parseLong(projectId);
+        Response response = projectService.getProjectById(id);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
@@ -167,6 +169,15 @@ public class ProjectController {
             throw new IllegalArgumentException("Invalid date format: " + date, e);
         }
         return newDate;
+    }
+
+
+    @GetMapping("/projects-by-employee")
+    public ResponseEntity<Response> getProjectsByEmployee(@RequestParam String employeeId) {
+        System.out.println(employeeId);
+        Long id = Long.parseLong(employeeId);
+        Response response = projectService.getProjectsByEmployee(id);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
 }
